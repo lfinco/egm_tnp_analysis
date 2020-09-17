@@ -17,11 +17,15 @@ class tnpSample:
         self.puTree  = puTree
         self.isMC    = isMC
         self.weight  = None
+        self.prescale  = None
         self.tnpTree = None
         self.maxWeight = 999999
 
     def set_weight(self,weight):
         self.weight = weight
+
+    def set_prescale(self,prescale):
+        self.prescale = prescale
 
     def set_maxWeight(self, maxi):
         self.maxWeight = maxi
@@ -51,6 +55,8 @@ class tnpSample:
         else  :
             print '   --- Data sample --- '
             print '  lumi     : ', self.lumi
+            print '  weight   : ', self.weight
+            print '  prescale   : ', self.prescale
 
     def rename(self, newname):
         self.name = newname

@@ -35,8 +35,8 @@ def createWorkspaceForAltSig( sample, tnpBin, tnpWorkspaceParam ):
                     tnpWorkspaceParam.remove(ir)                    
             tnpWorkspaceParam.append( 'tailLeft[-1]' )
 
-    if sample.isMC:
-        return tnpWorkspaceParam
+    #if sample.isMC:
+    return tnpWorkspaceParam
 
     
     fileref = sample.mcRef.altSigFit
@@ -127,7 +127,7 @@ def histFitterNominal( sample, tnpBin, tnpWorkspaceParam ):
     title = tnpBin['title'].replace(';',' - ')
     title = title.replace('probe_sc_eta','#eta_{SC}')
     title = title.replace('probe_Ele_pt','p_{T}')
-    fitter.fits(sample.mcTruth,title)
+    #fitter.fits(sample.mcTruth,title)
     rootfile.Close()
 
 
@@ -140,9 +140,8 @@ def histFitterAltSig( sample, tnpBin, tnpWorkspaceParam, isaddGaus=0 ):
     tnpWorkspacePar = createWorkspaceForAltSig( sample,  tnpBin, tnpWorkspaceParam )
 
     tnpWorkspaceFunc = [
-        "tailLeft[1]",
-        "RooCBExGaussShape::sigResPass(x,meanP,expr('sqrt(sigmaP*sigmaP+sosP*sosP)',{sigmaP,sosP}),alphaP,nP, expr('sqrt(sigmaP_2*sigmaP_2+sosP*sosP)',{sigmaP_2,sosP}),tailLeft)",
-        "RooCBExGaussShape::sigResFail(x,meanF,expr('sqrt(sigmaF*sigmaF+sosF*sosF)',{sigmaF,sosF}),alphaF,nF, expr('sqrt(sigmaF_2*sigmaF_2+sosF*sosF)',{sigmaF_2,sosF}),tailLeft)",
+        "Gaussian::sigResPass(x,meanP,sigmaP)",
+        "Gaussian::sigResFail(x,meanF,sigmaF)",
         "RooCMSShape::bkgPass(x, acmsP, betaP, gammaP, peakP)",
         "RooCMSShape::bkgFail(x, acmsF, betaF, gammaF, peakF)",
         ]
@@ -222,13 +221,19 @@ def histFitterAltBkg( sample, tnpBin, tnpWorkspaceParam ):
 
     ## generated Z LineShape
     ## for high pT change the failing spectra to any probe to get statistics
-    fileTruth = rt.TFile(sample.mcRef.histFile,'read')
-    histZLineShapeP = fileTruth.Get('%s_Pass'%tnpBin['name'])
-    histZLineShapeF = fileTruth.Get('%s_Fail'%tnpBin['name'])
-    if ptMin( tnpBin ) > minPtForSwitch: 
-        histZLineShapeF = fileTruth.Get('%s_Pass'%tnpBin['name'])
-#        fitter.fixSigmaFtoSigmaP()
-    fitter.setZLineShapes(histZLineShapeP,histZLineShapeF)
+ ####added by me: changing the following lines as they are in the altsig strategy, since we don't use MC here:
+   #  fileTruth = rt.TFile(sample.mcRef.histFile,'read')
+#     histZLineShapeP = fileTruth.Get('%s_Pass'%tnpBin['name'])
+#     histZLineShapeF = fileTruth.Get('%s_Fail'%tnpBin['name'])
+#     if ptMin( tnpBin ) > minPtForSwitch: 
+#         histZLineShapeF = fileTruth.Get('%s_Pass'%tnpBin['name'])
+# #        fitter.fixSigmaFtoSigmaP()
+#     fitter.setZLineShapes(histZLineShapeP,histZLineShapeF)
+#     fileTruth.Close()
+ ## generated Z LineShape
+    fileTruth = rt.TFile('etc/inputs/ZeeGenLevel.root','read')
+    histZLineShape = fileTruth.Get('Mass')
+    fitter.setZLineShapes(histZLineShape,histZLineShape)
     fileTruth.Close()
 
     ### set workspace
