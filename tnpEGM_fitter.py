@@ -151,8 +151,11 @@ if  args.doFit:
                 tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit )
             elif args.altSig and args.addGaus:
                 tnpRoot.histFitterAltSig(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltSigFit_addGaus, 1)
-            elif args.altBkg:
+               
+            elif args.altBkg and not args.addGaus:
                 tnpRoot.histFitterAltBkg(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit )
+            elif args.altBkg and args.addGaus:#adding a possible second gaussian also in the tag signal and in the alt bkg evaluation
+                tnpRoot.histFitterAltBkgGauss(  sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParAltBkgFit, 1 )
             else:
                 tnpRoot.histFitterNominal( sampleToFit, tnpBins['bins'][ib], tnpConf.tnpParNomFit )
 
@@ -287,7 +290,7 @@ if args.sumUp:
             
      
         
-        # #common use:
+        #common use:
        
         astr =  '%+8.3f\t%+8.3f\t%+8.3f\t%+8.3f\t%5.5f\t%5.5f\t%5.5f' % (
             float(v1Range[0]), float(v1Range[2]),
@@ -316,7 +319,7 @@ if args.sumUp:
                 #print astr
                 fOut.write( astr + '\n' )
                                 
-                # #common use:
+                #common use:
                 
             astr =  '%+8.3f\t%+8.3f\t%+8.3f\t%+8.3f\t%5.5f\t%5.5f\t%5.5f' % (
                 float(v1Range[0]), float(v1Range[2]),
@@ -353,6 +356,7 @@ if args.sumUp:
             # )   
             # print astr
 
+            #printing efficiency and uncertainty in format used in the systematics file
             astr =   '%s%8.10f%s%8.10f%s%8.10f%s' %(
               
                 "values = cms.vdouble(",effis['dataAltSig'][0],"), uncertainties = cms.vdouble(",effis_bkg[0],",",effis_bkg[1],")),"
@@ -397,9 +401,6 @@ if args.sumUp:
         print astr 
         
     
-
-
-       
         #fOut.write( astr + '\n' )
         #fOut.write( astr_cnc + '\n' )
         #fOut.write( astr_pres_cnc + '\n' )
@@ -408,13 +409,7 @@ if args.sumUp:
         #print 'Effis saved in file : ',  effFileName
 
     #effCanvasFile = TFile("efficiency.root")
-   
-   
-  
-   
-    #c=TCanvas("ph_full5x5x_r9_PLOT","ph_full5x5x_r9_PLOT")
-    #c=TCanvas("event_nPV_PLOT","event_nPV_PLOT")
-   
+     
     x, xe = array('f'), array('f')
     y, ye_l, ye_h = array('f'), array('f'), array('f')
     y_cnc, ye_cnc_l, ye_cnc_h = array('f'), array('f'), array('f')
@@ -532,31 +527,24 @@ if args.sumUp:
         effDir3_fit = effFile.mkdir("EGamma/passingHLT/fit_eff_plots")
         effDir3_fit.cd("passingHLT/fit_eff_plots")   
 
-
-
-    #c=TCanvas("event_nPV_PLOT","event_nPV_PLOT")
-    #c = TCanvas("ph_et_PLOT","ph_et_PLOT")
-    #c = TCanvas("ph_iso03_PLOT","ph_iso03_PLOT")
-    #c = TCanvas("ph_trkiso_PLOT","ph_trkiso_PLOT")
-    c = TCanvas("ph_full5x5x_r9","ph_full5x5x_r9")
-    #c = TCanvas("ph_sieie","ph_sieie")
-    #c = TCanvas("ph_hoe","ph_hoe")
     gEff = TGraphAsymmErrors(n,x,y,xe,xe,ye_l,ye_h)
     gEff.GetYaxis().SetTitle("Efficiency");
-    #gEff.SetName("ph_et_PLOT");
-    #gEff.GetXaxis().SetTitle("probe electron p_{T}");
-    gEff.SetName("ph_full5x5x_r9_PLOT");
-    gEff.GetXaxis().SetTitle("probe electron R_{9}");
-    #gEff.SetName("ph_sieie_PLOT");
-    #gEff.GetXaxis().SetTitle("probe electron #sigma_{i#eta i#eta}");
-    #gEff.SetName("ph_hoe_PLOT");
-    #gEff.GetXaxis().SetTitle("probe electron H/E");
+    
+    ##pt
+    c = TCanvas("ph_et_PLOT","ph_et_PLOT")
+    gEff.SetName("ph_et_PLOT");
+    gEff.GetXaxis().SetTitle("probe electron p_{T}");
+
+    ##R9
+    #c = TCanvas("ph_full5x5x_r9","ph_full5x5x_r9")
+    #gEff.SetName("ph_full5x5x_r9_PLOT");
+    #gEff.GetXaxis().SetTitle("probe electron R_{9}");
+
+    ##Number of primary vertices
+    #c = TCanvas("event_nPV_PLOT","event_nPV_PLOT")
     #gEff.SetName("event_nPV_PLOT");
     #gEff.GetXaxis().SetTitle("N_{PV}");
-    #gEff.SetName("ph_Iso03_PLOT");
-    #gEff.GetXaxis().SetTitle("probe Iso_{03}");
-    #gEff.SetName("ph_trkiso_PLOT");
-    #gEff.GetXaxis().SetTitle("probe Iso_{track}");
+
     gEff.GetYaxis().SetRangeUser(0,1);
     gEff.SetMarkerStyle(20);
     gEff.Draw("PAE");
@@ -579,32 +567,31 @@ if args.sumUp:
         effDir3_cnc = effFile.mkdir("EGamma/passingHLT/cnt_eff_plots")
         effDir3_cnc.cd("passingHLT/cnt_eff_plots")
 
+    ##pt
+    c_cnc = TCanvas("ph_et_PLOT","ph_et_PLOT")
+    
+    ##R9
+    #c_cnc =TCanvas("ph_full5x5x_r9","ph_full5x5x_r9")
 
-    #c_cnc.cd()
-    #c_cnc = TCanvas("ph_et_PLOT","ph_et_PLOT")
-    #c_cnc = TCanvas("ph_iso03_PLOT","ph_iso03_PLOT")
-    #c_cnc = TCanvas("ph_trkiso_PLOT","ph_trkiso_PLOT")
-    c_cnc =TCanvas("ph_full5x5x_r9","ph_full5x5x_r9")
-    #c_cnc =TCanvas("ph_sieie","ph_sieie")
-    #c_cnc =TCanvas("ph_hoe","ph_hoe")
+    ##Number of primary vertices
     #c_cnc =TCanvas("event_nPV_PLOT","event_nPV_PLOT")
+    
     if args.PresCnC:
         gEff_pres = TGraphAsymmErrors(n,x,y_pres,xe,xe,ye_pres_l,ye_pres_h)
         gEff_pres.GetYaxis().SetTitle("Efficiency");
-        #gEff_pres.SetName("ph_et_PLOT");
-        #gEff_pres.GetXaxis().SetTitle("probe electron p_{T}");
-        gEff_pres.SetName("ph_full5x5x_r9_PLOT");
-        gEff_pres.GetXaxis().SetTitle("probe electron R_{9}");
-        #gEff_pres.SetName("ph_sieie_PLOT");
-        #gEff_pres.GetXaxis().SetTitle("probe electron #sigma_{i#eta i#eta}");
-        #gEff_pres.SetName("ph_hoe_PLOT");
-        #gEff_pres.GetXaxis().SetTitle("probe electron H/E");
+        
+        ##pt
+        gEff_pres.SetName("ph_et_PLOT");
+        gEff_pres.GetXaxis().SetTitle("probe electron p_{T}");
+    
+        ##R9
+        #gEff_pres.SetName("ph_full5x5x_r9_PLOT");
+        #gEff_pres.GetXaxis().SetTitle("probe electron R_{9}");
+    
+        ##Number of primary vertices
         #gEff_pres.SetName("event_nPV_PLOT");
         #gEff.GetXaxis().SetTitle("N_{PV}");
-        #gEff_pres.SetName("ph_iso03_PLOT");
-        #gEff_pres.GetXaxis().SetTitle("probe Iso_{03}");
-        #gEff_pres.SetName("ph_trkiso_PLOT");
-        #gEff_pres.GetXaxis().SetTitle("probe Iso_{track}");
+    
         gEff_pres.GetYaxis().SetRangeUser(0,1);
         gEff_pres.SetMarkerStyle(20);
         gEff_pres.Draw("PAE");
@@ -612,27 +599,24 @@ if args.sumUp:
     else:
         gEff_cnc = TGraphAsymmErrors(n,x,y_cnc,xe,xe,ye_cnc_l,ye_cnc_h)
         gEff_cnc.GetYaxis().SetTitle("Efficiency");
-        #gEff_cnc.SetName("ph_et_PLOT");
-        #gEff_cnc.GetXaxis().SetTitle("probe electron p_{T}");
-        gEff_cnc.SetName("ph_full5x5x_r9_PLOT"); 
-        gEff_cnc.GetXaxis().SetTitle("probe electron R_{9}");
-        #gEff_cnc.SetName("ph_sieie_PLOT");
-        #gEff_cnc.GetXaxis().SetTitle("probe electron #sigma_{i#eta i#eta}");
-        #gEff_cnc.SetName("ph_hoe_PLOT");
-        #gEff_cnc.GetXaxis().SetTitle("probe electron H/E");
+        
+        ##pt
+        gEff_cnc.SetName("ph_et_PLOT");
+        gEff_cnc.GetXaxis().SetTitle("probe electron p_{T}");
+        
+        ##R9
+        #gEff_cnc.SetName("ph_full5x5x_r9_PLOT"); 
+        #gEff_cnc.GetXaxis().SetTitle("probe electron R_{9}");
+       
+        ##Number of primary vertices
         #gEff_cnc.SetName("event_nPV_PLOT");
         #gEff_cnc.GetXaxis().SetTitle("N_{PV}");
-        #gEff_cnc.SetName("ph_iso03_PLOT");
-        #gEff_cnc.GetXaxis().SetTitle("probe Iso_{03}");
-        #gEff_cnc.SetName("ph_trkiso_PLOT");
-        #gEff_cnc.GetXaxis().SetTitle("probe Iso_{track}");
+
         gEff_cnc.GetYaxis().SetRangeUser(0,1);
         gEff_cnc.SetMarkerStyle(20);
         gEff_cnc.Draw("PAE");
 
    
-    #gEff.Draw("ph_et_PLOT")
-    #c.Update()
     c_cnc.Write()
     
     if args.altBkg:
@@ -653,29 +637,25 @@ if args.sumUp:
             effDir3_bkg = effFile.mkdir("EGamma/passingHLT/fit_syst_eff_plots")
             effDir3_bkg.cd("passingHLT/fit_syst_eff_plots")
 
-        #c_bkg=TCanvas("event_nPV_PLOT","event_nPV_PLOT")
-        c_bkg = TCanvas("ph_et_PLOT","ph_et_PLOT")
-        #c_bkg = TCanvas("ph_iso03_PLOT","ph_iso03_PLOT")
-        #c_bkg = TCanvas("ph_trkiso_PLOT","ph_trkiso_PLOT")
-        #c_bkg = TCanvas("ph_full5x5x_r9","ph_full5x5x_r9")
-        #c_bkg = TCanvas("ph_sieie","ph_sieie")
-        #c_bkg = TCanvas("ph_hoe","ph_hoe")
+
         gEff_bkg = TGraphAsymmErrors(n,x,y_bkg,xe,xe,ye_bkg_l,ye_bkg_h)
         gEff_bkg.GetYaxis().SetTitle("Efficiency");
+    
+        ##pt
+        c_bkg = TCanvas("ph_et_PLOT","ph_et_PLOT")
         gEff_bkg.SetName("ph_et_PLOT");
         gEff_bkg.GetXaxis().SetTitle("probe electron p_{T}");
+
+        ##R9
+        #c_bkg = TCanvas("ph_full5x5x_r9","ph_full5x5x_r9")
         #gEff_bkg.SetName("ph_full5x5x_r9_PLOT");
         #gEff_bkg.GetXaxis().SetTitle("probe electron R_{9}");
-        #gEff_bkg.SetName("ph_sieie_PLOT");
-        #gEff_bkg.GetXaxis().SetTitle("probe electron #sigma_{i#eta i#eta}");
-        #gEff_bkg.SetName("ph_hoe_PLOT");
-        #gEff_bkg.GetXaxis().SetTitle("probe electron H/E");
+
+        ##Number of primary vertices
+        #c_bkg = TCanvas("event_nPV_PLOT","event_nPV_PLOT")
         #gEff_bkg.SetName("event_nPV_PLOT");
         #gEff_bkg.GetXaxis().SetTitle("N_{PV}");
-        #gEff_bkg.SetName("ph_Iso03_PLOT");
-        #gEff_bkg.GetXaxis().SetTitle("probe Iso_{03}");
-        #gEff_bkg.SetName("ph_trkiso_PLOT");
-        #gEff_bkg.GetXaxis().SetTitle("probe Iso_{track}");
+
         gEff_bkg.GetYaxis().SetRangeUser(0,1);
         gEff_bkg.SetMarkerStyle(20);
         gEff_bkg.Draw("PAE");

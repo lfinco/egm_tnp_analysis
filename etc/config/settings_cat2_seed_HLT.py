@@ -64,8 +64,8 @@ biningDef = [
     #BARREL (cat0 and cat2)
     { 'var' : 'ph_sc_abseta' , 'type': 'float', 'bins': [0.0,1.479] },
     
-    #{ 'var' : 'ph_sc_et' , 'type': 'float', 'bins': [0., 35.,37., 40., 45., 50., 60., 70., 90., 300.] }, 
-    { 'var' : 'ph_full5x5x_r9' , 'type': 'float', 'bins': [0.10,0.20,0.30,0.40,0.48,0.49,0.50,0.51,0.52,0.53,0.54,0.55,0.56,0.57,0.58,0.60,0.65,0.70,0.75,0.80,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.90,0.92,0.94,0.96,0.98,2.]},#0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99,2.] },
+    { 'var' : 'ph_sc_et' , 'type': 'float', 'bins': [0., 35.,37., 40., 45., 50., 60., 70., 90., 300.] }, 
+    #{ 'var' : 'ph_full5x5x_r9' , 'type': 'float', 'bins': [0.10,0.20,0.30,0.40,0.48,0.49,0.50,0.51,0.52,0.53,0.54,0.55,0.56,0.57,0.58,0.60,0.65,0.70,0.75,0.80,0.81,0.82,0.83,0.84,0.85,0.86,0.87,0.88,0.89,0.90,0.92,0.94,0.96,0.98,2.]},#0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99,2.] },
     #{ 'var' : 'expPU' , 'type': 'float', 'bins': [0.,10.,15.,20.,25.,30.,35.,40.,45.,50.,55.,100.] }, 
     #{ 'var' : 'event_nPV' , 'type': 'float', 'bins': [0.,10.,15.,20.,25.,30.,35.,40.,45.,50.,55.,100.] }, 
 
@@ -81,50 +81,38 @@ cutBase   = 'tag_Ele_pt > 40 && abs(tag_sc_eta) < 2.1'#tag selection
 additionalCuts = { 
       
     ###low R9 EB cat2
-    # 0 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 1 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 2 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 3 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 4 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 5 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 6 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 7 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # 8 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # #9 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # #10 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # ## 11 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # ## 12 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-
+    0 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    1 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    2 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    3 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    4 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    5 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    6 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    7 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    8 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+   
     #turn-on bin cat2
-    # 0 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 1 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 2 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 3 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 4 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 5 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 6 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 7 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # 8 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.54',
-    # # #9 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # # #10 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # # ## 11 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # # ## 12 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-
-
-    #plateu bin cat2
-    # 0 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 1 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 2 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 3 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 4 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 5 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 6 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 7 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # 8 : 'ph_full5x5x_r9 >= 0.54 && ph_full5x5x_r9 < 0.85',
-    # #9 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # #10 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # ## 11 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
-    # ## 12 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.85',
+    # 0 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 1 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 2 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 3 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 4 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 5 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 6 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 7 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+    # 8 : 'ph_full5x5x_r9 > 0.50 && ph_full5x5x_r9 < 0.56',
+   
+    #plateau bin cat2
+    # 0 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 1 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 2 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 3 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 4 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 5 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 6 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 7 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+    # 8 : 'ph_full5x5x_r9 >= 0.56 && ph_full5x5x_r9 < 0.85',
+   
 
  
 }
@@ -143,27 +131,88 @@ tnpParNomFit = [
     ]
 
 tnpParAltSigFit = [
-    #This is the model used
-    #Different bins can have different parameters. Keep track of them, so you can reproduce yor results
+    #This is the model used.
+    #Different bins can have different parameters. Keep track of them, so you can reproduce your results.
+    #all bins for all R9 range (but 0 for which we use one more gaussian), (0) 8 turnon bin,
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
-    "acmsP[60.,50.,150.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
-    "acmsF[60.,50.,150.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    "acmsP[60.,50.,180.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    "acmsF[60.,50.,180.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
     "gmeanF[80, 65, 90]",
     "gsigmaF[8, 1, 10]",
 
-   
+
+    #1 4  turnon bin,1 7 plateau bin
+    # "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    # "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    # "acmsP[60.,50.,100.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    # "acmsF[60.,50.,100.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    # "gmeanF[80, 65, 90]",
+    # "gsigmaF[8, 1, 10]",
+
+    #2 3 turnon bin
+    # "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    # "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    # "acmsP[60.,50.,120.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    # "acmsF[60.,50.,120.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    # "gmeanF[80, 65, 90]",
+    # "gsigmaF[8, 1, 10]",
+
+     #7 6 turnon bin
+    # "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    # "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    # "acmsP[60.,50.,160.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    # "acmsF[60.,50.,160.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0.01, 1]","peakF[90.0]",
+    # "gmeanF[80, 65, 90]",
+    # "gsigmaF[8, 1, 10]",
+ 
+    #5 turn on bin (to be done before the others)
+  #   "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+ #    "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+ #    "acmsP[60.,50.,120.]","betaP[0.05,0.01,0.1]","gammaP[0.1, 0, 1]","peakP[90.0]",
+ #    "acmsF[60.,50.,120.]","betaF[0.05,0.01,0.1]","gammaF[0.1, 0, 1]","peakF[90.0]",
+ #    "gmeanF[80, 65, 90]",
+ #    "gsigmaF[8, 1, 10]",
+
+
 ]
-     
+ 
+tnpParAltSigFit_addGaus = [
+    #This is the model used when we add a gaussian more in the signal shape of both tags and probes (only used in bin 0 for seeded leg).
+    #Different bins can have different parameters. Keep track of them, so you can reproduce your results.
+    
+    #bin 0 all R9
+    "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    "acmsP[60.,50.,110.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    "acmsF[60.,50.,110.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    "gmeanF[80, 65, 90]",
+    "gsigmaF[8, 1, 10]",  
+    "gmeanP[80, 65, 90]",
+    "gsigmaP[8, 1, 10]",  
+
+    #bin 0 turnon? R9plateau?
+    # "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    # "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    # "acmsP[60.,50.,210.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    # "acmsF[60.,50.,210.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    # "gmeanF[80, 65, 90]",
+    # "gsigmaF[8, 1, 10]",  
+    # "gmeanP[80, 65, 90]",
+    # "gsigmaP[8, 1, 10]",
+
+]    
 tnpParAltBkgFit = [
 
-  
+    #This is the model used for getting the syst. unc. due to the choice of the background function.
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
     "alphaP[0.,-2.,1.]",
     "alphaF[0.,-2 .,1 .]",
     "gmeanF[80, 65, 90]",
-    "gsigmaF[8, 1, 10]",
+    "gsigmaF[8, 1, 10]", 
+    "gmeanP[80, 65, 90]",
+    "gsigmaP[8, 1, 10]",
 
 ]
         

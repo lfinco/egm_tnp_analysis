@@ -88,11 +88,7 @@ additionalCuts = {
     6 : 'ph_full5x5x_r9 > 0.85', 
     7 : 'ph_full5x5x_r9 > 0.85', 
     8 : 'ph_full5x5x_r9 > 0.85', 
-    #9 : 'ph_full5x5x_r9 > 0.85', 
-    #10 : 'ph_full5x5x_r9 > 0.85', 
-    #11 : 'ph_full5x5x_r9 > 0.85',
-    #12 : 'ph_full5x5x_r9 > 0.85', 
-    
+     
     }
 
 #### or remove any additional cut (default)
@@ -110,27 +106,53 @@ tnpParNomFit = [
 
 
 tnpParAltSigFit = [
-    #This is the model used
-    #Different bins can have different parameters. Keep track of them, so you can reproduce yor results
+    #This is the model used.
+    #Different bins can have different parameters. Keep track of them, so you can reproduce your results.
+    
+    #bin (0) 1 2 3 4 5 7 8
+    "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    "acmsP[60.,50.,100.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    "acmsF[60.,50.,100.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    "gmeanF[80, 65, 90]",
+    "gsigmaF[8, 1, 10]"
+
+    #bin 6
+    # "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    # "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    # "acmsP[60.,50.,100.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    # "acmsF[60.,50.,100.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0.01, 1]","peakF[90.0]",
+    # "gmeanF[80, 65, 90]",
+    # "gsigmaF[8, 1, 10]"
+
+]
+    
+tnpParAltSigFit_addGaus = [
+    #This is the model used when we add a gaussian more in the signal shape of both tags and probes (only used in bin 0 for seeded leg).
+    #Different bins can have different parameters. Keep track of them, so you can reproduce your results.
+    
+    #bin 0
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
     "acmsP[60.,50.,150.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
     "acmsF[60.,50.,150.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
     "gmeanF[80, 65, 90]",
     "gsigmaF[8, 1, 10]",
-
-   
-   ]
-     
+    "gmeanP[80, 65, 90]",
+    "gsigmaP[8, 1, 10]",
+]
+ 
 tnpParAltBkgFit = [
 
-  
+    #This is the model used for getting the syst. unc. due to the choice of the background function.
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
     "alphaP[0.,-2.,1.]",
     "alphaF[0.,-2 .,1 .]",
     "gmeanF[80, 65, 90]",
-    "gsigmaF[8, 1, 10]",
+    "gsigmaF[8, 1, 10]", 
+    "gmeanP[80, 65, 90]",
+    "gsigmaP[8, 1, 10]",
 
     ]
         

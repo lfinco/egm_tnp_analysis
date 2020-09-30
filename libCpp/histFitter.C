@@ -122,12 +122,16 @@ void tnpFitter::setWorkspace(std::vector<std::string> workspace, bool isaddGaus)
   _work->factory(TString::Format("nBkgP[%f,0.5,%f]",_nTotP*0.1,_nTotP*1.5));
   _work->factory(TString::Format("nSigF[%f,0.5,%f]",_nTotF*0.9,_nTotF*1.5));
   _work->factory(TString::Format("nBkgF[%f,0.5,%f]",_nTotF*0.1,_nTotF*1.5));
-  _work->factory("SUM::pdfPass(nSigP*sigPass,nBkgP*bkgPass)");
+  //_work->factory("SUM::pdfPass(nSigP*sigPass,nBkgP*bkgPass)");
   
   if (isaddGaus) {
+    //When --addGaus option is true, a Gaussian more is added also to the tag signal, not only to the probe one (added by me, not in the original EGM code)
+    _work->factory("SUM::pdfPass(expr('sigFracP*nSigP',{sigFracP,nSigP})*sigPass,nBkgP*bkgPass, expr('(1.-sigFracP)*nSigP',{sigFracP,nSigP})*sigGaussPass)");
     _work->factory("SUM::pdfFail(expr('sigFracF*nSigF',{sigFracF,nSigF})*sigFail,nBkgF*bkgFail, expr('(1.-sigFracF)*nSigF',{sigFracF,nSigF})*sigGaussFail)");
   } 
+ 
   else {
+    _work->factory("SUM::pdfPass(nSigP*sigPass,nBkgP*bkgPass)");
     _work->factory("SUM::pdfFail(nSigF*sigFail,nBkgF*bkgFail)");
   }
   _work->Print();			         
@@ -137,9 +141,9 @@ void tnpFitter::fits(bool mcTruth,string title, bool isaddGaus) {
 
   cout << " title : " << title << endl;
 
-  
   RooAbsPdf *pdfPass = _work->pdf("pdfPass");
   RooAbsPdf *pdfFail = _work->pdf("pdfFail");
+
 
   if( mcTruth ) {
     _work->var("nBkgP")->setVal(0); _work->var("nBkgP")->setConstant();
@@ -171,29 +175,28 @@ void tnpFitter::fits(bool mcTruth,string title, bool isaddGaus) {
   _work->var("sigmaF")->setRange(0.8* _work->var("sigmaP")->getVal(), 3.0* _work->var("sigmaP")->getVal());
   RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save(),Range("fitMassRange"));
   //RooFitResult* resFail = pdfFail->fitTo(*_work->data("hFail"),Minos(_useMinos),SumW2Error(kTRUE),Save());
-
   RooPlot *pPass = _work->var("x")->frame(60,120);
   RooPlot *pFail = _work->var("x")->frame(60,120);
   pPass->SetTitle("passing probe");
   pFail->SetTitle("failing probe");
-  
+ 
   _work->data("hPass") ->plotOn( pPass );
   _work->pdf("pdfPass")->plotOn( pPass, LineColor(kRed) );
   _work->pdf("pdfPass")->plotOn( pPass, Components("bkgPass"),LineColor(kBlue),LineStyle(kDashed));
   _work->data("hPass") ->plotOn( pPass );
-  
+ 
   _work->data("hFail") ->plotOn( pFail );
   _work->pdf("pdfFail")->plotOn( pFail, LineColor(kRed) );
   _work->pdf("pdfFail")->plotOn( pFail, Components("bkgFail"),LineColor(kBlue),LineStyle(kDashed));
   _work->data("hFail") ->plotOn( pFail );
-
+  
   TCanvas c("c","c",1100,450);
   c.Divide(3,1);
   TPad *padText = (TPad*)c.GetPad(1);
   textParForCanvas( resPass,resFail, padText );
   c.cd(2); pPass->Draw();
   c.cd(3); pFail->Draw();
-
+  
   _fOut->cd();
   c.Write(TString::Format("%s_Canv",_histname_base.c_str()),TObject::kOverwrite);
   resPass->Write(TString::Format("%s_resP",_histname_base.c_str()),TObject::kOverwrite);

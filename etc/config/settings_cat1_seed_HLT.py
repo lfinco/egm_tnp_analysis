@@ -54,7 +54,7 @@ if not samplesDef['tagSel'] is None:
 #if not samplesDef['tagSel'] is None: samplesDef['tagSel'].set_weight(weightName)
 
 #set R9-eta weight
-weightName = 'r9etaWeight'#2016-2018
+weightName = 'r9etaWeight'
 if not samplesDef['data' ] is None: samplesDef['data'].set_weight(weightName)
 
 #############################################################
@@ -68,7 +68,7 @@ biningDef = [
     { 'var' : 'ph_sc_et' , 'type': 'float', 'bins': [0., 35.,37., 40., 45., 50., 60., 70., 90., 300.] },
     #{ 'var' : 'ph_full5x5x_r9' , 'type': 'float', 'bins': [0.90,0.91,0.92,0.93,0.94,0.95,0.96,0.97,0.98,0.99,1.] },
     #{ 'var' : 'expPU' , 'type': 'float', 'bins': [0.,10.,15.,20.,25.,30.,35.,40.,45.,50.,55.,100.] }, 
-    #{ 'var' : 'event_nPV' , 'type': 'float', 'bins': [0.,10.,15.,20.,25.,30.,35.,40.,45.,50.,55.,100.] }, #2017, 2018
+    #{ 'var' : 'event_nPV' , 'type': 'float', 'bins': [0.,10.,15.,20.,25.,30.,35.,40.,45.,50.,55.,100.] }, 
    
 ]
 
@@ -82,21 +82,16 @@ cutBase   = 'tag_Ele_pt > 40 && abs(tag_sc_eta) < 2.1 '#tag selection
 additionalCuts = { 
       
     #high R9 EE cat1
-    # 0 : 'ph_full5x5x_r9 > 0.90',
-    # 1 : 'ph_full5x5x_r9 > 0.90',
-    # 2 : 'ph_full5x5x_r9 > 0.90',
-    # 3 : 'ph_full5x5x_r9 > 0.90',
-    # 4 : 'ph_full5x5x_r9 > 0.90',
-    # 5 : 'ph_full5x5x_r9 > 0.90',
-    # 6 : 'ph_full5x5x_r9 > 0.90',
-    # 7 : 'ph_full5x5x_r9 > 0.90',
-    # 8 : 'ph_full5x5x_r9 > 0.90',
-    # #9 : 'ph_full5x5x_r9 > 0.90',
-    # #10 : 'ph_full5x5x_r9 > 0.90',
-    # ## 11 : 'ph_full5x5x_r9 > 0.90',
-    # ## 12 : 'ph_full5x5x_r9 > 0.90',
-
-  
+    0 : 'ph_full5x5x_r9 > 0.90',
+    1 : 'ph_full5x5x_r9 > 0.90',
+    2 : 'ph_full5x5x_r9 > 0.90',
+    3 : 'ph_full5x5x_r9 > 0.90',
+    4 : 'ph_full5x5x_r9 > 0.90',
+    5 : 'ph_full5x5x_r9 > 0.90',
+    6 : 'ph_full5x5x_r9 > 0.90',
+    7 : 'ph_full5x5x_r9 > 0.90',
+    8 : 'ph_full5x5x_r9 > 0.90',
+    
 }
 
 #### or remove any additional cut (default)
@@ -114,25 +109,45 @@ tnpParNomFit = [
 
 
 tnpParAltSigFit = [
-    #This is the model used
-    #Different bins can have different parameters. Keep track of them, so you can reproduce yor results
+    #This is the model used.
+    #Different bins can have different parameters. Keep track of them, so you can reproduce your results.
+   
+    #all bins (but 0, for which we use one more gaus in signal)
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
     "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
-    "acmsP[60.,50.,150.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
-    "acmsF[60.,50.,150.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    "acmsP[60.,50.,100.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    "acmsF[60.,50.,100.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
+    "gmeanF[80, 65, 90]",
+    "gsigmaF[8, 1, 10]"
+
+   ]
+
+tnpParAltSigFit_addGaus = [
+    #This is the model used when we add a gaussian more in the signal shape of both tags and probes (only used in bin 0 for seeded leg).
+    #Different bins can have different parameters. Keep track of them, so you can reproduce your results.
+    
+   #bin 0
+    "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
+    "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    "acmsP[60.,50.,130.]","betaP[0.05,0.01,0.08]","gammaP[0.1, 0, 1]","peakP[90.0]",
+    "acmsF[60.,50.,130.]","betaF[0.05,0.01,0.08]","gammaF[0.1, 0, 1]","peakF[90.0]",
     "gmeanF[80, 65, 90]",
     "gsigmaF[8, 1, 10]",
-    
-   
-   ]
+    "gmeanP[80, 65, 90]",
+    "gsigmaP[8, 1, 10]",
+
+]
      
 tnpParAltBkgFit = [
      
+    #This is the model used for getting the syst. unc. due to the choice of the background function.
     "meanP[-0.0,-5.0,5.0]","sigmaP[0.5,0.1,5.0]",
-    "meanF[-0.0,-5.0,5.0]","sigmaF[0.2.,0.1,1.0]",
-    "alphaP[0.,-5.,5.]",
-    "alphaF[0.,-5.,5.]",
+    "meanF[-0.0,-5.0,5.0]","sigmaF[0.5,0.1,5.0]",
+    "alphaP[0.,-2.,1.]",
+    "alphaF[0.,-2.,1.]",
     "gmeanF[80, 65, 90]",
     "gsigmaF[8, 1, 10]",
+    "gmeanP[80, 65, 90]",
+    "gsigmaP[8, 1, 10]",
     ]
         
